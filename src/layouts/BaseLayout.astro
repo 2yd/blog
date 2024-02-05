@@ -1,0 +1,20 @@
+---
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+const { pageTitle } = Astro.props
+import '@fontsource-variable/noto-sans-sc'
+import '@fontsource-variable/jetbrains-mono'
+---
+
+<html lang="zh-cn">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>pageTitle</title>
+   </head>
+   <body class="bg-light-100 text-primary-500">
+      <Nav />
+      <slot class="container" />
+      <!-- <Footer /> -->
+   </body>
+</html>
