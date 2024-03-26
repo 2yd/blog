@@ -1,5 +1,24 @@
 ---
+import BlogPost from '../components/BlogPost.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
+const collection = await getCollection('blogs')
+const pageTitle = '博客列表'
 ---
 
-<BaseLayout />
+<BaseLayout pageTitle={pageTitle}>
+   <div class="mx-24 mt-2">
+      <ul class="flex flex-col gap-4 items-center">
+         {
+            collection.map(blog => (
+               <li>
+                  <BlogPost
+                     link={`/blogs/${blog.slug}`}
+                     title={blog.data.title}
+                  />
+               </li>
+            ))
+         }
+      </ul>
+   </div>
+</BaseLayout>

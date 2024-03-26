@@ -1,0 +1,94 @@
+.blog-container {
+   h1 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+   }
+
+   h2 {
+      font-size: 2rem;
+      line-height: 2.25rem;
+   }
+
+   h3 {
+      font-size: 1.75rem;
+      line-height: 2rem;
+   }
+
+   h4 {
+      font-size: 1.5rem;
+      line-height: 1.75rem;
+   }
+
+   h5 {
+      font-size: 1.25rem;
+      line-height: 1.5rem;
+   }
+
+   h6 {
+      font-size: 1rem;
+      line-height: 1.25rem;
+   }
+
+   table {
+      border-collapse: collapse;
+   }
+
+   table,
+   td,
+   th {
+      padding: 0.5rem;
+      border: 1px solid black;
+   }
+
+   blockquote {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-left: 10px solid #84b3a4;
+      border-radius: 5px;
+      quotes: '\201C''\201D''\2018''\2019';
+   }
+
+   blockquote:before {
+      color: #84b3a4;
+      content: open-quote;
+      font-size: 2em;
+      line-height: 0.1em;
+      margin-right: 0.25em;
+      vertical-align: -0.4em;
+   }
+
+   blockquote p {
+      display: inline;
+   }
+
+   ul {
+      list-style: disc;
+   }
+
+   ol {
+      list-style: decimal;
+   }
+
+   code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      background-color: #f9f9f9;
+      padding: 0.25rem;
+      border-radius: 5px;
+      border: 1px solid #84b3a4;
+   }
+
+   pre code {
+      font-size: 1rem;
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+   }
+   .astro-code {
+      padding: 1rem;
+      border-radius: 10px;
+   }
+}
