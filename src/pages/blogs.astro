@@ -3,6 +3,7 @@ import BlogPost from '../components/BlogPost.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
 const collection = await getCollection('blogs')
+collection.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 const pageTitle = '博客列表'
 ---
 
@@ -15,6 +16,9 @@ const pageTitle = '博客列表'
                   <BlogPost
                      link={`/blogs/${blog.slug}`}
                      title={blog.data.title}
+                     date={blog.data.pubDate}
+                     tags={blog.data.tags}
+                     description={blog.data.description}
                   />
                </li>
             ))

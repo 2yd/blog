@@ -1,6 +1,6 @@
 ---
 title: '不要再用url.parse()了！'
-pubDate: 2022-09-03
+pubDate: 2023-10-04
 description: '在Node.js早期版本中,处理URL主要依赖url.parse()方法。但这种方式存在安全和性能隐患,已被官方标记为废弃。从Node.js 7.0.0版本开始,url模块引入了全新的WHATWG URL标准API,包括URL和URLSearchParams类。新API提供了更现代、安全、高效的URL解析和操作能力。'
 author: Zhuge'
 image:

@@ -4,11 +4,11 @@ import '../styles/blogStyle.scss'
 const { title } = Astro.props
 ---
 
-<BaseLayout>
+<BaseLayout title={title}>
    <div
-      class="container blog-container mx-auto px-12 py-2 flex flex-col gap-10"
+      class="container blog-container mx-auto px-12 py-2 flex flex-col gap-10 shadow-md bg-light-300"
    >
-      <!-- <h1 class="text-4xl font-bold text-center">{title}</h1> -->
+      <h1>{title}</h1>
       <slot />
    </div>
 </BaseLayout>

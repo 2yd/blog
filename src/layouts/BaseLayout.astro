@@ -4,19 +4,88 @@ import Footer from '../components/Footer.astro'
 const { pageTitle } = Astro.props
 import '@fontsource-variable/noto-sans-sc'
 import '@fontsource-variable/jetbrains-mono'
+import { ViewTransitions } from 'astro:transitions'
 ---
 
 <html lang="zh-cn">
    <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>pageTitle</title>
+      <title>{pageTitle}</title>
+      <ViewTransitions />
    </head>
    <body
-      class="bg-light-100 text-primary-500 selection:bg-tertiary-500 selection:text-white"
+      class="bg-light-100 text-primary-600 selection:bg-tertiary-500 selection:text-white"
    >
       <Nav />
       <slot class="container" />
       <!-- <Footer /> -->
+      <style>
+         :root {
+            --color-light: #fbfaf4;
+            --color-main: #d8e7f3;
+            --color-main-trans: #d8e7f377;
+         }
+         body {
+            background-color: var(--color-light);
+            opacity: 0.86;
+            background-image: linear-gradient(
+                  30deg,
+                  var(--color-main) 12%,
+                  transparent 12.5%,
+                  transparent 87%,
+                  var(--color-main) 87.5%,
+                  var(--color-main)
+               ),
+               linear-gradient(
+                  150deg,
+                  var(--color-main) 12%,
+                  transparent 12.5%,
+                  transparent 87%,
+                  var(--color-main) 87.5%,
+                  var(--color-main)
+               ),
+               linear-gradient(
+                  30deg,
+                  var(--color-main) 12%,
+                  transparent 12.5%,
+                  transparent 87%,
+                  var(--color-main) 87.5%,
+                  var(--color-main)
+               ),
+               linear-gradient(
+                  150deg,
+                  var(--color-main) 12%,
+                  transparent 12.5%,
+                  transparent 87%,
+                  var(--color-main) 87.5%,
+                  var(--color-main)
+               ),
+               linear-gradient(
+                  60deg,
+                  var(--color-main-trans) 25%,
+                  transparent 25.5%,
+                  transparent 75%,
+                  var(--color-main-trans) 75%,
+                  var(--color-main-trans)
+               ),
+               linear-gradient(
+                  60deg,
+                  var(--color-main-trans) 25%,
+                  transparent 25.5%,
+                  transparent 75%,
+                  var(--color-main-trans) 75%,
+                  var(--color-main-trans)
+               );
+            background-size: 20px 35px;
+            background-position:
+               0 0,
+               0 0,
+               10px 18px,
+               10px 18px,
+               0 0,
+               10px 18px;
+         }
+      </style>
    </body>
 </html>

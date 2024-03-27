@@ -91,4 +91,18 @@
       padding: 1rem;
       border-radius: 10px;
    }
+
+   img {
+      max-height: 300px;
+      aspect-ratio: attr(width) / attr(height);
+      margin: 0 auto;
+   }
+   a {
+      text-decoration: underline;
+      text-decoration-color: #285d86;
+   }
+
+   a:hover {
+      color: #285d86;
+   }
 }
