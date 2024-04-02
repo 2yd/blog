@@ -1,0 +1,185 @@
+---
+title: '[译]CSS中:has()的强大'
+pubDate: 2024-03-31
+description: '在这篇文章中，我们将探讨在你的下一个网站项目中如何使用:has()。尽管:has()相对较新，但它已经在前端社区中大受欢迎，因为它能够对你的用户界面中的各种元素进行控制。让我们来看看这个伪类是什么，以及我们如何使用它。'
+author: 'Zhuge'
+tags: ['programming', 'frontend', 'css']
+---
+
+> 本文翻译自 [The Power of :has() in CSS](https://css-tricks.com/the-power-of-has-in-css) ，原作者 [Chris DeMars](https://css-tricks.com/author/chrisdemars/)
+
+## 语法
+
+`:has()`CSS 伪类可以帮助我们为元素设置样式，前提是我们在元素内部找到并确认了我们正在寻找的东西。就像是在说，“如果这个盒子里有特定的东西，那么就用这种方式（并且只能用这种方式）来设置盒子的样式。”
+
+```css
+:has(<direct-selector >) {
+   /* ... */
+}
+```
+
+> CSS 函数式伪类 `:has()` 表示一个元素，如果作为参数传递的任何相对选择器在锚定到该元素时，至少匹配一个元素。这个伪类通过把可容错相对选择器列表作为参数，提供了一种针对引用元素选择父元素或者先前的兄弟元素的方法。<br/>
+> ——对于更全面的解释，[MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:has) 做得很完美。
+
+## 样式问题
+
+在过去的几年里，我们没有办法使用 CSS 根据父元素的直接子元素或者根据另一个元素来给父元素进行样式设计。如果我们必须这样做，就需要使用一些 JavaScript 并根据 HTML 的结构来切换类的开/关。`:has()`解决了这个问题。
+
+比方说，你有一个标题 1（`h1`）元素，它是博客列表页上的帖子标题或者类似的东西，然后你有一个直接跟在它后面的标题 2（`h2`）。这个`h2`可能是帖子的副标题。如果`h2`出现在 h1 的紧邻后面，并且是重要的，你可能想要让那个`h1`更突出。在这之前，你可能需要编写一个 JS 函数。
+
+## 过去的做法——JavsScript
+
+```javascript
+const h1Elements = document.querySelectorAll('h1')
+
+h1Elements.forEach(h1 => {
+   const h2Sibling = h1.nextElementSibling
+   if (h2Sibling && h2Sibling.tagName.toLowerCase() === 'h2') {
+      h1.classList.add('highlight-content')
+   }
+})
+```
+
+这段 JavaScript 函数会找到所有跟在`h2`之后的`h1`，并且加上‘highlight-content’的类名来让`h1`在重要文章中更突出。
+
+与现代化的 CSS 一同火热的是全新且改进的特性!我们现在可以在浏览器中利用 CSS 实现更多功能。现在，我们可以借助 CSS 完成过去必须借助 JavaScript 实现的一些功能，虽然不是所有，但的确有一部分。
+
+## 现在的做法——CSS
+
+```css
+h1:has(+ h2) {
+   color: blue;
+}
+```
+
+## 多用 :has() 吧！
+
+现在你可以使用`:has()`来实现 JS 函数所做的相同的事情。这段 CSS 正在检查任何`h1`，并使用兄弟组合器检查紧随其后的`h2`，并将文本的颜色设置为蓝色。以下是一些`:has()`可能派上用场的几个用例。
+
+### :has 选择器用例 1
+
+#### HTML
+
+```html
+<h1>Lorem, ipsum dolor.</h1>
+<h2>Lorem ipsum dolor sit amet.</h2>
+<p>
+   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius, odio
+   voluptatibus est vero iste ad?
+</p>
+
+<!-- WITHOUT HAS BELOW -->
+
+<h1>This is a test</h1>
+<p>
+   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius, odio
+   voluptatibus est vero iste ad?
+</p>
+```
+
+#### CSS
+
+```css
+h1:has(+ h2) {
+   color: blue;
+}
+```
+
+![Example 1](https://i0.wp.com/css-tricks.com/wp-content/uploads/2024/04/example-1.png?w=808&ssl=1)
+
+### :has 选择器用例 2
+
+我们作为网络工作者，往往需要操作或处理图片。我们可能会使用[Cloudinary](https://cloudinary.com/)提供的工具对我们的图像进行各种变换，但通常我们想要添加阴影，边框半径和标题（不要与 alt 属性中的替代文本混淆）。
+下面的例子中，使用:has()来检查一个 figure 或 image 是否有 figcaption 元素，如果有，就应用一些背景和边框半径，以使图像更突出。
+
+#### HTML
+
+```html
+<section>
+   <figure>
+      <img
+         src="https://placedog.net/500/280"
+         alt="My aunt sally's dog is a golden retreiver."
+      />
+      <figcaption>My Aunt Sally's Doggo</figcaption>
+   </figure>
+</section>
+```
+
+#### CSS
+
+```css
+figure:has(figcaption) {
+   background: #c3baba;
+   padding: 0.6rem;
+   max-width: 50%;
+   border-radius: 5px;
+}
+```
+
+<p
+   class="codepen"
+   data-height="300"
+   data-default-tab="result"
+   data-slug-hash="oNOGqbK"
+   data-user="chrisdemars"
+   style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+   <span>
+      See the Pen{' '}
+      <a href="https://codepen.io/chrisdemars/pen/oNOGqbK">:has figcaption</a>{' '}
+      by Chris DeMars (<a href="https://codepen.io/chrisdemars">@chrisdemars</a>
+      ) on <a href="https://codepen.io">CodePen</a>.
+   </span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+## 我能 :has() 吗？
+
+可以看到`:has()`在现代浏览器支持的很好
+
+<picture>
+   <source
+      type="image/webp"
+      srcset="https://caniuse.bitsofco.de/image/css-has.webp"
+   />
+   <source
+      type="image/png"
+      srcset="https://caniuse.bitsofco.de/image/css-has.png"
+   />
+   <img
+      src="https://caniuse.bitsofco.de/image/css-has.jpg"
+      alt="Data on support for the css-has feature across the major browsers from caniuse.com"
+   />
+</picture>
+
+## 社区中的 :has()
+
+我在 Twitter 上联系了我的人脉，看看我的同行们在日常工作中是如何使用`:has()`的，以下是他们对此的看法。
+
+> “我有一个例子是在[@saucedopen](https://github.com/open-sauced/app/blob/d0f6e2a1dbe879d6d95a84e1951142425604fb54/styles/globals.css#L207-L210)的第三方包中对特定的 SVG 进行样式设置，因为我无法直接设置样式。”<br/>
+> ——这是 [OpenSauced](https://opensauced.pizza/) 的 [Nick Taylor](https://twitter.com/nickytonline) 关于使用`:has()`的看法。
+
+```css
+svg:has(> #Mail) {
+   stroke-width: 1;
+}
+```
+
+> 哈哈，我上次使用它是在向树状视图中添加键盘功能，所以我需要检测同级元素的状态和类别，但是它还未在火狐浏览器中实现，所以我不得不寻找其他解决方案。🫠<br/>
+> ——来自 [Nexcor Food Safety Technologies, Inc.](https://twitter.com/AbbeyPerini)的 [Abbey Perini](https://twitter.com/AbbeyPerini).
+
+看到社区的朋友们如何巧妙地运用现代 CSS 来解决实际问题，真是太棒了。同时，也要特别提一下 Abbey，她因为可访问性的考虑而使用这个功能！
+
+## 需要记住的几点
+
+在使用`:has()`时，有几个关键点需要记住（这些要点参考自 [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)）：
+
+-  伪类的特异性取决于其参数中最具特异性的选择器
+-  如果浏览器不支持`:has()`伪类，除非`:has()`在包容的选择器列表中，如`:is()`和`:where()`，否则整个选择器块将无效
+-  `:has()`伪类不能嵌套在另一个`:has()`中
+-  伪元素在`:has()`内部也不是有效的选择器，伪元素对于`:has()`来说也不是有效的锚点
+
+## 总结
+
+利用 CSS 的力量，包括像`:has()`这样的高级特性，使我们能够打造出卓越的网络体验。CSS 的优势在于其级联和特异性…这是最好的部分，让我们能够充分利用它的潜力。通过拥抱 CSS 的功能，我们可以推动网络设计和开发向前发展，解锁新的可能性，创造出开创性的用户界面。
