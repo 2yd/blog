@@ -1,9 +1,15 @@
 ---
-
+let msg = 'More Than Software'
 ---
 
 <div
    class="pt-4 p-2 mx-20 h-[40vh] flex flex-row gap-1 justify-center bg-secondary-500 text-white rounded"
 >
-   <h1 class="text-5xl font-mono">More Than Software</h1>
+   <h1 class="text-5xl font-mono">{msg}</h1>
 </div>
+
+<script>
+   let msg = window.matchMedia('(max-width: 1080px)').matches
+      ? '现在博客还没有做这种屏幕尺寸的适配，页面布局可能很奇怪QuQ'
+      : 'More Than Software'
+</script>
