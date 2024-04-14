@@ -1,0 +1,95 @@
+---
+title: '[译]虚拟DOM vs 影子DOM'
+pubDate: 2024-04-11
+description: '在网页开发中，理解文DOM的内部运作是非常关键的。在关于DOM的讨论中，经常会提到两个概念，即虚拟DOM和影子DOM。虽然它们听起来相似，但它们有不同的用途并具有明显的特性。在这个全面的指南中，我们将深入探讨虚拟DOM和影子DOM的复杂性，通过简单的解释和说明性的代码片段来突出它们的差异。'
+author: 'Zhuge'
+tags: ['programming', 'frontend']
+---
+
+> 本文翻译自 [Virtual DOM vs Shadow DOM – What's the Difference?](https://www.freecodecamp.org/news/virtual-dom-vs-shadow-dom) ，原作者 [Joan Ayebola](https://www.freecodecamp.org/news/author/joan/)，有部分删改
+
+## 什么是虚拟 DOM？
+
+虚拟 DOM 是由 React 等库使用的概念，用于提高 Web 应用程序的性能。本质上，它是实际 DOM 的轻量级副本，由框架进行维护。
+当应用程序状态发生变化时，React 会创建一个新的虚拟 DOM 表示，并将其与之前的表示进行比较，以确定差异（称为"diffing"）。然后，只将必要的更改应用于实际的 DOM，从而实现高效的更新。
+
+## 虚拟 DOM 如何工作？
+
+首先看一个简单的 React 示例代码
+
+```jsx
+// Initial render
+const element = <div>Hello, world!</div>
+ReactDOM.render(element, document.getElementById('root'))
+
+// Update
+const updatedElement = <div>Hello, world! Updated.</div>
+ReactDOM.render(updatedElement, document.getElementById('root'))
+```
+
+在这个示例中，React 创建了元素的虚拟 DOM 表示。当更新发生时，它会创建新元素的新虚拟 DOM 表示。然后，React 比较两个虚拟 DOM 表示以确定差异（在这个例子中，文本发生了更改）。最后，React 带着必要的变化更新实际的 DOM，从而实现了高效的更新过程。
+
+## 什么是影子 DOM？
+
+影子 DOM 是用来描述 DOM 树的有限或受限视图的术语。与用于优化性能的虚拟 DOM 不同，影子 DOM 指的是 DOM 树本身内的一种特定结构。
+
+## 理解影子 DOM
+
+想象一个场景：你有一个通过影子 DOM 封装的 web 组件
+
+```html
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Shadow DOM Example</title>
+   </head>
+   <body>
+      <my-custom-element></my-custom-element>
+      <script>
+         class MyCustomElement extends HTMLElement {
+            constructor() {
+               super()
+               const shadow = this.attachShadow({ mode: 'open' })
+               const span = document.createElement('span')
+               span.textContent = 'Hello, Shadow DOM!'
+               shadow.appendChild(span)
+            }
+         }
+         customElements.define('my-custom-element', MyCustomElement)
+      </script>
+   </body>
+</html>
+```
+
+在这个例子中，我们定义了一个自定义元素`my-custom-element`，它使用`attachShadow`方法将其内容封装在影子 DOM 内。影子根节点（shadow root）内的内容与文档的其余部分隔离，创建了一个“边界”，也就是影子 DOM。
+
+## 虚拟 DOM 和 影子 DOM 的区别
+
+##### 目的
+
+-  虚拟 DOM：主要目的是通过在更新过程中最小化需要的 DOM 操控次数来提高性能。
+-  影子 DOM：专注于封装网页组件的样式和行为，为 CSS 和 JavaScript 提供一个有范围的环境。
+
+##### 实现
+
+-  虚拟 DOM：通过 React、Vue.js 和 Angular 等库/框架来实现，以促进对实际 DOM 的高效更新。
+-  影子 DOM：由网络浏览器原生支持，支持使用影子 DOM 封装 web 组件。
+
+##### 性能
+
+-  虚拟 DOM：通过减少 DOM 操作次数带来性能好处，从而实现更快的更新和渲染。
+-  Shadow DOM：虽然 Shadow DOM 本身并不直接影响性能，但它通过隔离组件样式和行为可以提升性能。
+
+##### 隔离性
+
+-  虚拟 DOM：本身不提供隔离性，但通过其高效的差异算法，有助于最小化 DOM 更新的意外副作用。
+-  影子 DOM：为 web 组件 的内容提供封装和隔离，防止样式和行为泄露到文档的其余部分。
+
+##### 用途
+
+-  虚拟 DOM：在现代 JavaScript 框架（如 React）中常用，其中根据状态变化，组件会高效率地渲染。
+-  影子 DOM：在创建具有封装样式和行为的自定义 web 组件时被使用，确保模块化和可重用性。
+
+## 总结
+
+尽管他们在不同的场景中使用，虚拟 DOM 和影子 DOM 在网页开发中都有重要的作用。虚拟 DOM 专注于优化 DOM 更新性能，而影子 DOM 为 web 组件提供封装和隔离，增强了模块化和可维护性。通过在像 React 这样的框架中使用虚拟 DOM，以及用于封装 web 组件的影子 DOM，开发人员可以创建提供最佳性能和可扩展性的健壮且易维护的网页应用。
